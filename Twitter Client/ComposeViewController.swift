@@ -27,10 +27,13 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
         
         tweetTextView.delegate = self
-        handleLabel.text = "@\(tweet!.screenname!)"
-        if replyTo != nil{
-            tweetTextView.text = "\(replyTo!)"
+        
+        if let tweet = tweet {
+            tweetTextView.text = "@" + (tweet.screenname! as String) + " "
         }
+//        if replyTo != nil{
+//            tweetTextView.text = "\(replyTo!)"
+//        }
         
         //tweetTextView.font.c
 

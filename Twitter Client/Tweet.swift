@@ -30,6 +30,7 @@ class Tweet: NSObject {
     var authorDictionary: NSDictionary?
     var authorName: NSString?
     var authorProfile: NSURL?
+    var authorBackgroundPicture: NSURL?
     
     var id: Int?
     var id_str : String?
@@ -69,6 +70,10 @@ class Tweet: NSObject {
         self.tagline = "\(authorDictionary!["description"]!)"
         self.numberOfTweets = "\(authorDictionary!["statuses_count"]!)"
         self.screenname = "\(authorDictionary!["screen_name"]!)"
+        
+        if let profileUrlString = authorDictionary!["profile_banner_url"] as? String {
+            self.authorBackgroundPicture = NSURL(string: profileUrlString)
+        }
         
         
     }

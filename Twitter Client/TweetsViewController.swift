@@ -9,6 +9,8 @@
 import UIKit
 import AFNetworking
 import MBProgressHUD
+import JLToast
+import DGElasticPullToRefresh
 
 class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TweetCellRetweetDelegate, TweetCellFavoriteDelegate, TweetCellProfileDelegate, TweetCellReplyDelegate, UIScrollViewDelegate {
     
@@ -30,16 +32,35 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.delegate = self
         tableView.dataSource = self
         
+        navigationController!.navigationBar.barTintColor = UIColor.init(red: 0.8, green: 1.0, blue: 0.5, alpha: 1.0)
+        //tabBarController!.tabBar.barTintColor = UIColor.init(red: 0.8, green: 1.0, blue: 0.5, alpha: 1.0)
         
-        let refreshControl = UIRefreshControl()
         
-        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), forControlEvents: UIControlEvents.ValueChanged)
-        tableView.insertSubview(refreshControl, atIndex: 0)
+//        let refreshControl = UIRefreshControl()
+//        
+//        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), forControlEvents: UIControlEvents.ValueChanged)
+//        tableView.insertSubview(refreshControl, atIndex: 0)
+        ////////////////////////////////////////
+        
+        let loadingView = DGElasticPullToRefreshLoadingViewCircle()
+        loadingView.tintColor = UIColor(red: 78/255.0, green: 221/255.0, blue: 200/255.0, alpha: 1.0)
+        tableView.dg_addPullToRefreshWithActionHandler({ [weak self] () -> Void in
+            // Add your logic here
+            // Do not forget to call dg_stopLoading() at the end
+            self!.loadData()
+           
+            }, loadingView: loadingView)
+        tableView.dg_setPullToRefreshFillColor(UIColor(red: 57/255.0, green: 67/255.0, blue: 89/255.0, alpha: 1.0))
+        tableView.dg_setPullToRefreshBackgroundColor(tableView.backgroundColor!)
         
         loadData()
         
 
         // Do any additional setup after loading the view.
+    }
+    
+    deinit {
+        tableView.dg_removePullToRefresh()
     }
 
     override func didReceiveMemoryWarning() {
@@ -136,21 +157,24 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         TwitterClient.sharedInstace.homeTimeline({ (tweets: [Tweet]) in
             self.tweets = tweets
-            
-            
             self.tableView.reloadData()
+
+            self.tableView.dg_stopLoading()
             //            for tweet in tweets {
             //                print(tweet.text)
             //            }
         }) { (error: NSError) in
             print(error.localizedDescription)
         }
+        
 
     }
     
     func retweet(tweetCell: TweetCell) {
         if !tweetCell.tweet.retweeted! {
             TwitterClient.sharedInstace.retweetTweet(tweetCell.tweet.id_str!, params: nil, completion:  { (error) -> () in
+                JLToast.makeText("retweet", delay: 0.25, duration: JLToastDelay.ShortDelay).show()
+
                 print(tweetCell.tweet.id_str)
                 tweetCell.retweetButton.imageView?.image = UIImage(named: "retweet_on.png")
                 let thisTweet = tweetCell.tweet! as Tweet
@@ -167,6 +191,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             
             TwitterClient.sharedInstace.unretweetTweet(tweetCell.tweet.id_str!, params: nil, completion:  { (error) -> () in
+                JLToast.makeText("unretweet", delay: 0.25, duration: JLToastDelay.ShortDelay).show()
                 print(tweetCell.tweet.id_str)
                 tweetCell.retweetButton.imageView?.image = UIImage(named: "retweet.png")
                 let thisTweet = tweetCell.tweet! as Tweet
@@ -180,6 +205,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func favorite(tweetCell: TweetCell) {
         if !tweetCell.tweet.favorited! {
             TwitterClient.sharedInstace.favoriteTweet(tweetCell.tweet!.id_str!, params: nil, completion: {(error) -> () in
+                JLToast.makeText("favorite", delay: 0.25, duration: JLToastDelay.ShortDelay).show()
                 tweetCell.favoriteButton.imageView?.image = UIImage(named: "favorite_on.png")
                 let thisTweet = tweetCell.tweet! as Tweet
                 thisTweet.favorited = true
@@ -193,6 +219,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             })
         } else {
             TwitterClient.sharedInstace.unfavoriteTweet(tweetCell.tweet!.id_str!, params: nil, completion: {(error) -> () in
+                JLToast.makeText("unfavorite", delay: 0.25, duration: JLToastDelay.ShortDelay).show()
                 tweetCell.favoriteButton.imageView?.image = UIImage(named: "favorite.png")
                 let thisTweet = tweetCell.tweet! as Tweet
                 thisTweet.favorited = false
@@ -291,5 +318,9 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
 
+}
+
+extension UIScrollView {
+    func dg_stopScrollingAnimation() {}
 }
 

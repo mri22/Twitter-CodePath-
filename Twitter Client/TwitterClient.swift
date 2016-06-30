@@ -81,6 +81,38 @@ class TwitterClient: BDBOAuth1SessionManager {
 
     }
     
+    func userTimeline(success: ([Tweet]) -> (), failure: (NSError) -> ()) {
+        GET("1.1/statuses/user_timeline.json", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) in
+            
+            let dictionaries = response as! [NSDictionary]
+            
+            let tweets = Tweet.tweetsWithrray(dictionaries)
+            
+            success(tweets)
+            
+            }, failure: { (task: NSURLSessionDataTask?, error: NSError) in
+                failure(error)
+                self.loginFailure?(error)
+        })
+        
+    }
+    
+    func mentionsTimeline(success: ([Tweet]) -> (), failure: (NSError) -> ()) {
+        GET("1.1/statuses/mentions_timeline.json", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) in
+            
+            let dictionaries = response as! [NSDictionary]
+            
+            let tweets = Tweet.tweetsWithrray(dictionaries)
+            
+            success(tweets)
+            
+            }, failure: { (task: NSURLSessionDataTask?, error: NSError) in
+                failure(error)
+                self.loginFailure?(error)
+        })
+        
+    }
+    
     func homeTimelineWithParams(params: NSDictionary?, completion: (tweets: [Tweet]?, error: NSError?) -> ()) {
         
         // GET the timeline
@@ -101,6 +133,7 @@ class TwitterClient: BDBOAuth1SessionManager {
                 completion(tweets: nil, error: error)
         })
     }
+    
     
     func currentAccount(success: (User) -> (), failure: (NSError) -> ()) {
         GET("1.1/account/verify_credentials.json", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) in

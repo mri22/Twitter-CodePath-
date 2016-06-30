@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import PeekPop
 
-class UserProfileViewController: UIViewController {
+
+
+class UserProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, PeekPopPreviewingDelegate {
     
     
     @IBOutlet weak var profileImageView: UIImageView!
@@ -17,12 +20,22 @@ class UserProfileViewController: UIViewController {
     @IBOutlet weak var numberOfTweets: UILabel!
     @IBOutlet weak var numberOfFollowersLabel: UILabel!
     @IBOutlet weak var numberOfFollowingLabel: UILabel!
+    @IBOutlet weak var backgroundImageView: UIImageView!
     
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    var tweets: [Tweet]!
+    
+    var peekPop: PeekPop?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        tableView.delegate = self
+        tableView.dataSource = self
         
         userNameLabel.text = "\(User.currentUser!.name!)"
         
@@ -33,12 +46,77 @@ class UserProfileViewController: UIViewController {
         numberOfTweets.text = User.currentUser?.numberOfTweets as! String
         numberOfFollowingLabel.text = User.currentUser?.numberOfFollowing as! String
         userTaglineLabel.text = User.currentUser?.tagline as! String
+        print(userTaglineLabel.text)
+        if let backgroundUrl = User.currentUser?.backgroundPictureUrl {
+            backgroundImageView.setImageWithURL(backgroundUrl)
+        }
+        
+        loadData()
+        ///////////////////////
+        
+        peekPop = PeekPop(viewController: self)
+        peekPop?.registerForPreviewingWithDelegate(self, sourceView: self.view)
+        
 
     }
-
+    
+    func previewingContext(previewingContext: PreviewingContext, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        
+        return self
+    }
+    
+    func previewingContext(previewingContext: PreviewingContext, commitViewController viewControllerToCommit: UIViewController) {
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if let tweets = self.tweets {
+            return tweets.count
+        } else {
+            return 0
+        }
+        
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("UserCell") as! UserCell
+        
+        
+        let tweet = self.tweets[indexPath.row]
+        
+        
+        if let profileURL = tweet.authorProfile {
+            cell.userProfieImageView.setImageWithURL(profileURL)
+            
+        }
+        cell.userNameLabel.text = tweet.authorName as? String
+        cell.userTweetTextView.text = tweet.text as? String
+        
+        
+        return cell
+        
+    }
+    
+    func loadData() {
+        
+        TwitterClient.sharedInstace.userTimeline({ (tweets: [Tweet]) in
+            self.tweets = tweets
+            
+            
+            self.tableView.reloadData()
+            //            for tweet in tweets {
+            //                print(tweet.text)
+            //            }
+        }) { (error: NSError) in
+            print(error.localizedDescription)
+        }
+        
     }
     
 

@@ -16,6 +16,7 @@ class TweetDetailViewController: UIViewController {
     @IBOutlet weak var tweetLabel: UILabel!
     @IBOutlet weak var retweetCountLabel: UILabel!
     @IBOutlet weak var favoriteCountLabel: UILabel!
+    @IBOutlet weak var taglineLabel: UILabel!
     
     var tweet: Tweet!
     
@@ -26,6 +27,7 @@ class TweetDetailViewController: UIViewController {
         
         self.retweetCountLabel.text = "\(tweet.retweetCount)"
         self.favoriteCountLabel.text = "\(tweet.favoritesCount)"
+        self.taglineLabel.text = "\(tweet!.tagline!)"
         
         if let profileURL = self.tweet.authorProfile {
             authorProfileImage.setImageWithURL(profileURL)

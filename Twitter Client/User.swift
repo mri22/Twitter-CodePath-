@@ -20,6 +20,7 @@ class User: NSObject {
     var numberOfTweets: NSString?
     var numberOfFollowers: NSString?
     var numberOfFollowing: NSString?
+    var backgroundPictureUrl: NSURL?
     
     var dictionary: NSDictionary?
     
@@ -40,6 +41,10 @@ class User: NSObject {
         self.numberOfFollowers = "\(dictionary["followers_count"]!)"
         self.numberOfFollowing = "\(dictionary["friends_count"]!)"
         self.numberOfTweets = "\(dictionary["statuses_count"]!)"
+        
+        if let profileUrlString = dictionary["profile_banner_url"] as? String {
+            self.backgroundPictureUrl = NSURL(string: profileUrlString)
+        }
     }
     
     static var _currentUser: User?

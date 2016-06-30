@@ -36,7 +36,6 @@ class LogInViewController: UIViewController {
                 print("Error: \(error.localizedDescription)")
         }
         
-        
     }
     
     
