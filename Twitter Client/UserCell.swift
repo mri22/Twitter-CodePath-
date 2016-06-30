@@ -9,12 +9,19 @@
 import UIKit
 
 class UserCell: UITableViewCell {
+    
+    //weak var deleteDelegate: UserCellDeleteDelegate?
 
     @IBOutlet weak var userProfieImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userTweetTextView: UITextView!
     
+    var tweet: Tweet?
     
+    
+//    @IBAction func deleteAction(sender: AnyObject) {
+//        deleteDelegate?.deleteCell(self)
+//    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,3 +35,8 @@ class UserCell: UITableViewCell {
     }
 
 }
+
+//protocol UserCellDeleteDelegate : class {
+//    func deleteCell(userCell: UserCell)
+//}
+

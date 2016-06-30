@@ -29,6 +29,8 @@ class UserProfileViewController: UIViewController, UITableViewDelegate, UITableV
     
     var peekPop: PeekPop?
     
+    var userCell: UserCell?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -89,6 +91,9 @@ class UserProfileViewController: UIViewController, UITableViewDelegate, UITableV
         
         
         let tweet = self.tweets[indexPath.row]
+        //cell.deleteDelegate = self
+        
+        cell.tweet = tweet
         
         
         if let profileURL = tweet.authorProfile {
@@ -118,6 +123,16 @@ class UserProfileViewController: UIViewController, UITableViewDelegate, UITableV
         }
         
     }
+    
+//    func deleteCell(userCell: UserCell) {
+//        self.userCell = userCell
+//        TwitterClient.sharedInstace.postTweetReply(replyStatusID: (userCell.tweet!.id_str)!, success: { (tweet: Tweet) in
+//            
+//        }) { (error: NSError) in
+//        print(error.localizedDescription)
+//    }
+//
+//    }
     
 
     /*

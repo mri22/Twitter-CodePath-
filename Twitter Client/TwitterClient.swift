@@ -201,6 +201,18 @@ class TwitterClient: BDBOAuth1SessionManager {
                 completion(error: error)
             }
         )}
+    
+//    func deleteTweet(id: String, params: NSDictionary?, completion: (error: NSError?) -> () ){
+//        print("delete called")
+//        print(id)
+//        POST("1.1/statuses/destroy.json?id=\(id)", parameters: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) in
+//            print("delete")
+//            completion(error: nil)
+//            }, failure: { (task: NSURLSessionDataTask?, error: NSError!) in
+//                print(error.localizedDescription)
+//                completion(error: error)
+//            }
+//        )}
 
     
     func postTweet(params: NSDictionary?, completion: (error: NSError?) -> () ){
@@ -213,4 +225,13 @@ class TwitterClient: BDBOAuth1SessionManager {
                 completion(error: error)
             }
         )}
+    
+    
+    func postTweetReply(replyStatusID replyStatusID: String = "", success: (Tweet) -> (), failure: NSError -> ()) {
+        TwitterClient.sharedInstace.POST("1.1/statuses/update.json?status=&in_reply_to_status_id=\(replyStatusID)", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) in
+            success(Tweet(dictionary: response as! NSDictionary))
+        }) { (task: NSURLSessionDataTask?, error: NSError) in
+            failure(error)
+        }
+    }
 }

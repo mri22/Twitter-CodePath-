@@ -12,6 +12,7 @@ import MBProgressHUD
 import JLToast
 import DGElasticPullToRefresh
 
+
 class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TweetCellRetweetDelegate, TweetCellFavoriteDelegate, TweetCellProfileDelegate, TweetCellReplyDelegate, UIScrollViewDelegate {
     
     
@@ -57,6 +58,8 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
 
         // Do any additional setup after loading the view.
+        
+        
     }
     
     deinit {
@@ -236,7 +239,10 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func reply(tweetCell: TweetCell) {
         self.replyCell = tweetCell
-        //let replyTo = tweetCell.screenNameLabel!.text as String?
+        TwitterClient.sharedInstace.postTweetReply(replyStatusID: (replyCell?.tweet.id_str)!, success: { (tweet: Tweet) in
+        }) { (error: NSError) in
+            print(error.localizedDescription)
+        }
     }
     
     

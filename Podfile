@@ -14,6 +14,7 @@ pod 'UIScrollView-InfiniteScroll'
 pod 'PeekPop'
 pod "DGElasticPullToRefresh"
 pod 'MGSwipeTableCell'
+
   use_frameworks!
 
   # Pods for Twitter Client
