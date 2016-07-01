@@ -33,6 +33,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.delegate = self
         tableView.dataSource = self
         
+        
         navigationController!.navigationBar.barTintColor = UIColor.init(red: 0.8, green: 1.0, blue: 0.5, alpha: 1.0)
         //tabBarController!.tabBar.barTintColor = UIColor.init(red: 0.8, green: 1.0, blue: 0.5, alpha: 1.0)
         
@@ -301,6 +302,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             let tweetDetailViewController = segue.destinationViewController as! TweetDetailViewController
             tweetDetailViewController.tweet = tweet
+            
         }
         
         if segue.identifier == "profileSegue" {

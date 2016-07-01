@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ElasticTransition
 
 class TweetDetailViewController: UIViewController {
 

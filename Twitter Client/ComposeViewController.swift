@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class ComposeViewController: UIViewController, UITextViewDelegate {
     
     var currentUser: User?
@@ -20,6 +21,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var countLabel: UILabel!
     @IBOutlet weak var tweetTextView: UITextView!
     @IBOutlet weak var handleLabel: UILabel!
+    @IBOutlet weak var profileImageView: UIImageView!
     
     
     
@@ -36,6 +38,10 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
 //        }
         
         //tweetTextView.font.c
+        
+        if let profileUrl = User.currentUser?.profileUrl {
+            profileImageView.setImageWithURL(profileUrl)
+        }
 
     }
 

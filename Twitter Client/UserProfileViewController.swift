@@ -8,6 +8,7 @@
 
 import UIKit
 import PeekPop
+import DGElasticPullToRefresh
 
 
 
@@ -59,7 +60,23 @@ class UserProfileViewController: UIViewController, UITableViewDelegate, UITableV
         peekPop = PeekPop(viewController: self)
         peekPop?.registerForPreviewingWithDelegate(self, sourceView: self.view)
         
+        
+        let loadingView = DGElasticPullToRefreshLoadingViewCircle()
+        loadingView.tintColor = UIColor(red: 78/255.0, green: 221/255.0, blue: 200/255.0, alpha: 1.0)
+        tableView.dg_addPullToRefreshWithActionHandler({ [weak self] () -> Void in
+            // Add your logic here
+            // Do not forget to call dg_stopLoading() at the end
+            self!.loadData()
+            
+            }, loadingView: loadingView)
+        tableView.dg_setPullToRefreshFillColor(UIColor(red: 57/255.0, green: 67/255.0, blue: 89/255.0, alpha: 1.0))
+        tableView.dg_setPullToRefreshBackgroundColor(tableView.backgroundColor!)
+        
 
+    }
+    
+    deinit {
+        tableView.dg_removePullToRefresh()
     }
     
     func previewingContext(previewingContext: PreviewingContext, viewControllerForLocation location: CGPoint) -> UIViewController? {
@@ -113,7 +130,7 @@ class UserProfileViewController: UIViewController, UITableViewDelegate, UITableV
         TwitterClient.sharedInstace.userTimeline({ (tweets: [Tweet]) in
             self.tweets = tweets
             
-            
+            self.tableView.dg_stopLoading()
             self.tableView.reloadData()
             //            for tweet in tweets {
             //                print(tweet.text)
@@ -146,3 +163,7 @@ class UserProfileViewController: UIViewController, UITableViewDelegate, UITableV
     */
 
 }
+
+//extension UIScrollView {
+//    func dg_stopScrollingAnimation() {}
+//}

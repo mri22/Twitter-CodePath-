@@ -14,6 +14,7 @@ pod 'UIScrollView-InfiniteScroll'
 pod 'PeekPop'
 pod "DGElasticPullToRefresh"
 pod 'MGSwipeTableCell'
+pod "ElasticTransition", "~> 3.0.0"
 
   use_frameworks!
 

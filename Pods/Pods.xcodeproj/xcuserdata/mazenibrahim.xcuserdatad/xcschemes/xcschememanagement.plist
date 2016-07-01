@@ -19,6 +19,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>ElasticTransition.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>JLToast.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -30,6 +35,11 @@
 			<false/>
 		</dict>
 		<key>MGSwipeTableCell.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MotionAnimation.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -97,17 +107,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5F91D60949067776D93930C31998CE2E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>651A79F83EC04B940CDF4E2D56BFEBBA</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>76B73C102A1CB12EADA40646F9BBBBA1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7CAAB4AEB098D0E3D8522D5B093FB6E3</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -127,12 +132,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DE9E3B57E62A6720D9FE5C1DA0F77EC2</key>
+		<key>A939911CF61ED5CF8E6A59E42EE2DC9D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BA37AA84CDAB6F20896B5A56A1A0D1FA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>E61CE3B6DFA1FE6B3E296965C76C0E10</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F28D60B0CC50AC866DDCE4811140455A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FFEA8B7A5DFDB46D3B54983BFA603A99</key>
 		<dict>
 			<key>primary</key>
 			<true/>
